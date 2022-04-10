@@ -19,16 +19,6 @@ module.exports = (plop) => {
         path: "../src/components/{{pascalCase name}}/styles.js",
         templateFile: "templates/styles.js.hbs",
       },
-      {
-        type: "add",
-        path: "../src/components/{{pascalCase name}}/stories.jsx",
-        templateFile: "templates/stories.jsx.hbs",
-      },
-      {
-        type: "add",
-        path: "../src/components/{{pascalCase name}}/test.jsx",
-        templateFile: "templates/test.jsx.hbs",
-      },
     ],
   });
 };

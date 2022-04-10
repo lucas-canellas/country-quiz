@@ -1,12 +1,12 @@
 import React from "react";
 import * as S from "./styles";
+import Card from './../Card'
 
 const Main = ({ title = "Boilerplate" }) => {
   return (
     <main>
-      <S.Color>
-        <h1>{title}</h1>
-      </S.Color>
+      
+      <Card/>
     </main>
   );
 };
