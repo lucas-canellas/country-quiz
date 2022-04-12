@@ -21,6 +21,10 @@ export const Wrapper = styled.div`
   background-color: #fff;
   border-radius: 2.4rem;
   padding: 7.2rem 3.2rem 3.2rem;
+
+  .certo {
+    background-color: #fff;
+  }
 `;
 
 export const Question = styled.h1`
@@ -43,6 +47,7 @@ export const Option = styled.div`
   cursor: pointer;
   margin-bottom: 2.5rem;
   color: rgba(96, 102, 208, 0.8);
+  background-color: ${(props) => props.bg};
 
   &:hover {
     background-color: #f9a826;
