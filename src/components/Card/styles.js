@@ -22,8 +22,8 @@ export const Wrapper = styled.div`
   border-radius: 2.4rem;
   padding: 7.2rem 3.2rem 3.2rem;
 
-  .certo {
-    background-color: #fff;
+  @media (max-width: 464px) {
+    width: 100%;
   }
 `;
 
@@ -38,7 +38,60 @@ export const FlagImage = styled.img`
   width: 8.4rem;
 `;
 
-export const Option = styled.div`
+export const OptionA = styled.div`
+  border-radius: 1.2rem;
+  border: 2px solid rgba(96, 102, 208, 0.7);
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-bottom: 2.5rem;
+  color: rgba(96, 102, 208, 0.8);
+  background-color: ${(props) => props.bg};
+
+  &:hover {
+    background-color: #f9a826;
+    color: #fff;
+    border: 2px solid #f9a826;
+  }
+`;
+
+export const OptionB = styled.div`
+  border-radius: 1.2rem;
+  border: 2px solid rgba(96, 102, 208, 0.7);
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-bottom: 2.5rem;
+  color: rgba(96, 102, 208, 0.8);
+  background-color: ${(props) => props.bg};
+
+  &:hover {
+    background-color: #f9a826;
+    color: #fff;
+    border: 2px solid #f9a826;
+  }
+`;
+export const OptionC = styled.div`
+  border-radius: 1.2rem;
+  border: 2px solid rgba(96, 102, 208, 0.7);
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-bottom: 2.5rem;
+  color: rgba(96, 102, 208, 0.8);
+  background-color: ${(props) => props.bg};
+
+  &:hover {
+    background-color: #f9a826;
+    color: #fff;
+    border: 2px solid #f9a826;
+  }
+`;
+
+export const OptionD = styled.div`
   border-radius: 1.2rem;
   border: 2px solid rgba(96, 102, 208, 0.7);
   display: flex;
@@ -60,6 +113,11 @@ export const Item = styled.h1``;
 
 export const ItemValue = styled.h1`
   margin-left: 4.4rem;
+
+  span {
+    color: transparent;
+    text-shadow: 0 0 5px rgba(96, 102, 208, 0.8);
+  }
 `;
 
 export const IconCorrect = styled(MdOutlineCancel)`
@@ -87,4 +145,8 @@ export const Button = styled.button`
   color: #fff;
   font-weight: 700;
   font-size: 1.8rem;
+
+  &:hover {
+    filter: brightness(0.9);
+  }
 `;

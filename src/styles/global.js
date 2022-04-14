@@ -54,6 +54,25 @@ const GlobalStyles = createGlobalStyle`
     justify-content: center;
     align-items: center;
     height: 100vh;
+    padding: 0 .5rem;
+    padding-top: 5rem;
+    
+  }
+
+  .certo {
+    background-color: #60BF88;
+    color: #fff;
+    border: 2px solid #60BF88 ;
+  }
+
+  .errado {
+    background-color: #EA8282;
+    color: #fff;
+    border: 2px solid #EA8282 ;
+  }
+
+  .block {
+    pointer-events: none;
   }
 `;
 

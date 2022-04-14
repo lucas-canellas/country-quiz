@@ -4,16 +4,21 @@ import * as S from "./styles";
 import randomItem from "random-item";
 import { useRouter } from "next/router";
 import Router from "next/router";
-import { parseCookies, setCookie, destroyCookie } from "nookies";
+import { parseCookies, setCookie } from "nookies";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const Card = () => {
   const router = useRouter();
   const [countries, setCoutries] = useState([]);
   const { contador = 0 } = parseCookies();
-  const frase1 = "is the capital of";
-  const frase2 = "Which country does this flag belong to?  ";
-  const frases = [frase1, frase2];
-  const optionRef = useRef(null);
+  const sentence1 = "is the capital of";
+  const sentence2 = "Which country does this flag belong to?  ";
+  const sentences = [sentence1, sentence2];
+
+  let container = "";
+
+  let element = "";
 
   useEffect(() => {
     getDados();
@@ -24,11 +29,10 @@ const Card = () => {
   }
 
   const country1 = countries[Math.floor(Math.random() * countries.length)];
-  const frase = frases[Math.floor(Math.random() * frases.length)];
+  const frase = sentences[Math.floor(Math.random() * sentences.length)];
+  const randomSentences = randomItem.multiple(countries, 3);
 
-  const vasco = randomItem.multiple(countries, 3);
-
-  vasco.push(country1);
+  randomSentences.push(country1);
 
   function shuffle(o) {
     for (
@@ -40,83 +44,120 @@ const Card = () => {
   }
 
   function refresh() {
-    setCookie(null, "contador", parseInt(contador) + 1, {
-      maxAge: 30 * 24 * 60 * 60,
-      path: "/",
-    });
+    try {
+      element.classList.remove("certo");
+      element.classList.remove("errado");
+      container.classList.remove("block");
 
-    Router.push("/");
-  }
-
-  shuffle(vasco);
-
-  function verificarSeEstaCerto(e) {
-    let certo = e.target.outerText;
-
-    if (certo === country1.name.common) {
-      /* e.target.parentElement.style.backgroundColor = "green"; */
-      optionRef.current.style.backgroundColor = "pink";
-    } else {
-      e.target.parentElement.style.backgroundColor = "red";
-      router.push("/result");
+      Router.push("/");
+    } catch (error) {
+      alert("You have to choose an answer!!");
     }
   }
 
-  console.log(vasco);
+  shuffle(randomSentences);
+
+  function verificarSeEstaCerto(e) {
+    try {
+      container = document.getElementById("container-options");
+      let certo = e.target.outerText;
+      element = e.target.parentElement;
+
+      if (certo === country1.name.common) {
+        element.classList.add("certo");
+        container.classList.add("block");
+        setCookie(null, "contador", parseInt(contador) + 1, {
+          maxAge: 30 * 24 * 60 * 60,
+          path: "/",
+        });
+      } else {
+        element.classList.add("errado");
+        container.classList.add("block");
+        router.push("/result");
+      }
+    } catch (error) {
+      console.log(e);
+    }
+  }
 
   return (
     <>
-      <div style={{ display: "flex", alignItems: "flex-end", height: "67spx" }}>
+      <div style={{ display: "flex", alignItems: "flex-end", height: "67px" }}>
         <S.Titulo>COUNTRY QUIZ</S.Titulo>
         <S.Imagem src="image/img1.svg" alt="Imagem card" />
       </div>
       <S.Wrapper>
         {country1 && (
           <>
-            {frase === frase2 && (
+            {frase === sentence2 && (
               <S.FlagImage src={country1.flags.png} alt="Bandeira" />
             )}
             <S.Question>
-              {frase === frase1 && country1.capital}
-              {frase}
+              {frase === sentence1 && country1.capital} {" " + frase}
             </S.Question>
           </>
         )}
 
-        {!!vasco && (
+        {!!randomSentences && (
           <>
-            <S.Option ref={optionRef}>
-              <S.Item>A</S.Item>
-              <S.ItemValue onClick={verificarSeEstaCerto}>
-                {vasco[0] && vasco[0].name.common}
-              </S.ItemValue>
-              {/* <S.IconCorrect /> */}
-              {/* <S.IconIncorrect/>  */}
-            </S.Option>
-            <S.Option ref={optionRef}>
-              <S.Item>A</S.Item>
-              <S.ItemValue onClick={verificarSeEstaCerto}>
-                {vasco[1] && vasco[1].name.common}
-              </S.ItemValue>
-              {/* <S.IconCorrect /> */}
-              {/* <S.IconIncorrect/>  */}
-            </S.Option>
-            <S.Option ref={optionRef}>
-              <S.Item>A</S.Item>
-              <S.ItemValue onClick={verificarSeEstaCerto}>
-                {vasco[2] && vasco[2].name.common}
-              </S.ItemValue>
-              {/* <S.IconCorrect /> */}
-              {/* <S.IconIncorrect/>  */}
-            </S.Option>
-            <S.Option ref={optionRef}>
-              <S.Item>A</S.Item>
-              <S.ItemValue onClick={verificarSeEstaCerto}>
-                {vasco[3] && vasco[3].name.common}
-              </S.ItemValue>
-              {/* <S.IconCorrect /> */}
-              {/* <S.IconIncorrect/>  */}
-            </S.Option>
+            <div id="container-options">
+              <S.OptionA>
+                <S.Item>A</S.Item>
+                <S.ItemValue onClick={verificarSeEstaCerto}>
+                  {randomSentences[0] ? (
+                    randomSentences[0].name.common
+                  ) : (
+                    <>
+                      <span>Clube</span>
+                    </>
+                  )}
+                </S.ItemValue>
+                {/* <S.IconCorrect /> */}
+                {/* <S.IconIncorrect/>  */}
+              </S.OptionA>
+              <S.OptionB>
+                <S.Item>B</S.Item>
+                <S.ItemValue onClick={verificarSeEstaCerto}>
+                  {randomSentences[1] ? (
+                    randomSentences[1].name.common
+                  ) : (
+                    <>
+                      <span>de Regatas</span>
+                    </>
+                  )}
+                </S.ItemValue>
+                {/* <S.IconCorrect /> */}
+                {/* <S.IconIncorrect/>  */}
+              </S.OptionB>
+              <S.OptionC>
+                <S.Item>C</S.Item>
+                <S.ItemValue onClick={verificarSeEstaCerto}>
+                  {randomSentences[2] ? (
+                    randomSentences[2].name.common
+                  ) : (
+                    <>
+                      <span>Vasco</span>
+                    </>
+                  )}
+                </S.ItemValue>
+                {/* <S.IconCorrect /> */}
+                {/* <S.IconIncorrect/>  */}
+              </S.OptionC>
+              <S.OptionD>
+                <S.Item>D</S.Item>
+                <S.ItemValue onClick={verificarSeEstaCerto}>
+                  {randomSentences[3] ? (
+                    randomSentences[3].name.common
+                  ) : (
+                    <>
+                      <span>da Gama</span>
+                    </>
+                  )}
+                </S.ItemValue>
+                {/* <S.IconCorrect /> */}
+                {/* <S.IconIncorrect/>  */}
+              </S.OptionD>
+            </div>
           </>
         )}
 
